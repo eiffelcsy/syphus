@@ -1,0 +1,7 @@
+{
+  "name": "syphus",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
