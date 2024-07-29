@@ -1,8 +1,4 @@
-* {
-    font-family: 'Open Sans', sans-serif;
-}
-
-ion-content {
+.loginContent {
     --background: none;  
     background-color: #F2E5D5; 
     background-image: url('/login_background.svg');
@@ -27,7 +23,7 @@ ion-input {
     --border-color: #122A40;
 }
 
-.formDiv {
+.loginFormDiv {
     margin-top: 35vh;
     padding-left: 10%;
     padding-right: 10%;
@@ -54,7 +50,7 @@ a {
     margin-right: 16px;
 }
 
-.externalAuthDiv {
+.OAuthLoginDiv {
     margin-top: 6vh;
 }
 

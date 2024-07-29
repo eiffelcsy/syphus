@@ -1,0 +1,97 @@
+.registerContent {
+    --background: none;  
+    background-color: #F2E5D5; 
+    background-image: url('/register_background.svg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.registerTitle {
+    font-size: 3rem;
+    font-weight: 600;
+    position: absolute;
+    top: 13%;
+    left: 10%;
+    color: #122A40;
+    text-shadow: 1px 3px 4px #00000050;
+}
+
+ion-input {
+    --color: #122A40 !important;
+    --border-color: #122A40;
+}
+
+.registerFormDiv {
+    margin-top: 26vh;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+form {
+    width: 100%;
+}
+
+.registerButton {
+    width: 15vh;
+    margin-top: 12.5vh;
+    font-size: 1.5rem;
+    font-weight: 300;
+}
+
+a {
+    text-decoration: none;
+}
+
+.externalButton {
+    box-shadow: 0px 4px 5px #122A4050;
+    border-radius: 14px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.signUpMessageDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.OAuthRegDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1vh;
+}
+
+.loginLink {
+    margin-top: 2vh;
+    padding-left: 10%;
+    padding-right: 10%;
+    float: right;
+}
+
+.dividerDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 4vh;
+    margin-bottom: 4vh;
+}
+
+.line {
+    border: none;
+    border-top: 1px solid #122A40;
+    margin: 0 10px;
+    flex-grow: 1;
+}
+
+.orText {
+    font-weight: bold;
+    color: #122A40;
+}
+
+.passwordError {
+    position: absolute;
+    font-size: 0.8rem;
+}
