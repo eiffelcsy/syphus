@@ -1,17 +1,14 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import React from 'react';
+import { IonButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonToast } from '@ionic/react';
+import React, { useState } from 'react';
+import LogoutButton from '../../components/LogoutButton';
 
 const Home: React.FC = () => {
 
     return (
         <IonPage>
-            <IonHeader>
-                <IonToolbar>
-                    <IonTitle>Page Title</IonTitle>
-                </IonToolbar>
-            </IonHeader>
             <IonContent className="ion-padding">
-                UI goes here...
+                Home Content
+                <LogoutButton/>
             </IonContent>
         </IonPage>
     );

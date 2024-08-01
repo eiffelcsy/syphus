@@ -1,14 +1,4 @@
-.forgotTitle {
-    font-size: 2rem;
-    font-weight: 600;
-    position: absolute;
-    top: 20%;
-    left: 10%;
-    color: #122A40;
-    text-shadow: 1px 3px 4px #00000050;
-}
-
-.forgotContent {
+.resetContent {
     --background: none;  
     background-color: #F2E5D5; 
     background-image: url('/login_background.svg');
@@ -18,12 +8,22 @@
     background-size: auto;
 }
 
-.forgotFormDiv {
-    margin-top: 31vh;
+.resetTitle {
+    font-size: 2rem;
+    font-weight: 600;
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    color: #122A40;
+    text-shadow: 1px 3px 4px #00000050;
+}
+
+.resetFormDiv {
+    margin-top: 32vh;
     padding-left: 10%;
     padding-right: 10%;
 }
 
-.forgotButton {
-    margin-top: 5vh;
+.resetButton {
+    margin-top: 3vh;
 }

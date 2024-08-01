@@ -1,22 +1,29 @@
-import { IonContent, IonButton, IonHeader, IonInput, IonPage, IonText, IonTitle, IonToolbar, IonIcon } from '@ionic/react';
+import { IonContent, IonButton, IonHeader, IonInput, IonPage, IonText, IonTitle, IonToolbar, IonIcon, IonToast, IonNavLink } from '@ionic/react';
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { logoGoogle, logoFacebook, logoApple } from 'ionicons/icons';
 import { supabase } from '../../supabaseClient';
 
 import './Login.css'
 
+import Forgot from '../Forgot/Forgot';
+import Register from '../Register/Register';
+
 const Login: React.FC = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const [showToast, setShowToast] = useState<boolean>(false);
+    const [toastMessage, setToastMessage] = useState<string>('');
+    const history = useHistory();
 
     const login = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        try {
-            const { error } = await supabase.auth.signInWithPassword({ email, password });
-            if (error) throw error;
-            console.log('Login successful');
-        } catch (error) {
-            console.error('Error logging in:', (error as Error).message);
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) {
+            setToastMessage(`Error logging in: ${error.message}`);
+            setShowToast(true);
+        } else {
+            history.push('/app');
         }
     }
 
@@ -50,7 +57,7 @@ const Login: React.FC = () => {
                             </div>
                         </IonInput>
                         <div className='forgotDiv'>
-                           <a href='/forgot'><IonText color={'secondary'}>Forgot Password?</IonText></a>
+                           <IonNavLink routerDirection='forward' component={() => <Forgot/> }><IonText color={'secondary'}>Forgot Password?</IonText></IonNavLink>
                         </div>
                         <div className='OAuthLoginDiv'>
                             <IonButton className='externalButton' fill='clear' size='large'><IonIcon slot='icon-only' icon={logoGoogle} size="large"></IonIcon></IonButton>
@@ -61,8 +68,14 @@ const Login: React.FC = () => {
                     </form>
                 </div>
                 <div className='registerLink'>
-                    <IonText color={'secondary'}>New Here? </IonText><a href='/register'><IonText color={'tertiary'}>Register</IonText></a>
+                    <IonText color={'secondary'}>New Here? </IonText><IonNavLink routerDirection='forward' component={() => <Register/> }><IonButton fill='clear' color={'tertiary'} className='registerLinkButton' mode='ios'>Register</IonButton></IonNavLink>
                 </div>
+                <IonToast
+                    isOpen={showToast}
+                    onDidDismiss={() => setShowToast(false)}
+                    message={toastMessage}
+                    duration={3000}
+                />
             </IonContent>
         </IonPage>
     );

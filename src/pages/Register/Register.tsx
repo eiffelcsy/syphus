@@ -1,4 +1,4 @@
-import { IonButton, IonContent, IonIcon, IonInput, IonPage, IonText } from '@ionic/react';
+import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonButton, IonContent, IonIcon, IonInput, IonPage, IonText } from '@ionic/react';
 import React, { useState } from 'react';
 import { logoGoogle, logoFacebook, logoApple } from 'ionicons/icons';
 import { supabase } from '../../supabaseClient';
@@ -28,7 +28,14 @@ const Register: React.FC = () => {
     };
 
     return (
-        <IonPage>
+        <>
+            <IonHeader>
+                <IonToolbar color="primary">
+                    <IonButtons slot="start">
+                        <IonBackButton></IonBackButton>
+                    </IonButtons>
+                </IonToolbar>
+            </IonHeader>
             <IonContent className='registerContent'>
                 <h1 className='registerTitle'>Register</h1>
                 <div className='registerFormDiv'>
@@ -89,7 +96,7 @@ const Register: React.FC = () => {
                     <IonText color={'secondary'}>Have an Account? </IonText><a href='/login'><IonText color={'tertiary'}>Login</IonText></a>
                 </div>
             </IonContent>
-        </IonPage>
+        </>
     );
 };
 

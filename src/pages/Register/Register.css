@@ -95,3 +95,8 @@ a {
     position: absolute;
     font-size: 0.8rem;
 }
+
+ion-toolbar {
+    --border-style: none;
+    position: absolute;
+}

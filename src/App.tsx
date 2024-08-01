@@ -1,6 +1,8 @@
-import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
+import React from 'react';
+import { IonApp, IonNav, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
+import { Route, Redirect } from 'react-router-dom';
+
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -30,13 +32,13 @@ import '@ionic/react/css/display.css';
 import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
-import './theme/variables.css';
 
+import './theme/variables.css';
 import Login from './pages/Login/Login';
-import Home from './pages/Home/Home';
-import Register from './pages/Register/Register'
+import Reset from './pages/Reset/Reset';
 import { AuthProvider } from './authContext';
 import ProtectedRoute from './ProtectedRoute';
+import MainTabs from './components/MainTabs';
 
 setupIonicReact();
 
@@ -45,13 +47,10 @@ const App: React.FC = () => (
     <AuthProvider>
       <IonReactRouter>
         <IonRouterOutlet>
-          <Route exact path="/login">
-            <Login />
-          </Route>
-          <Route exact path="/register">
-            <Register />
-          </Route>
-          <ProtectedRoute exact path="/" component={Home} />
+          <IonNav root={() => <Login/>}></IonNav>
+          <ProtectedRoute exact path="/reset-password" component={Reset} />
+          <ProtectedRoute path="/app" component={MainTabs} />
+          <Redirect exact from="/" to="/login" />
         </IonRouterOutlet>
       </IonReactRouter>
     </AuthProvider>
