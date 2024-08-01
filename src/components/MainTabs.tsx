@@ -7,12 +7,9 @@ import Events from '../pages/Events/Events';
 import Add from '../pages/Add/Add';
 import Tasks from '../pages/Tasks/Tasks';
 import Tags from '../pages/Tags/Tags';
-import { useAuth } from '../authContext';
 
 
 const MainTabs: React.FC = () => {
-  const { logout } = useAuth();
-
   return (
     <IonTabs>
       <IonRouterOutlet>
