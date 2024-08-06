@@ -39,7 +39,8 @@ const Login: React.FC = () => {
                             type='email' 
                             mode='md' 
                             value={email} 
-                            onIonChange={(e) => setEmail(e.detail.value!)}>
+                            onIonChange={(e) => setEmail(e.detail.value!)}
+                            className='loginInput'>
                             <div slot='label'>
                                 <IonText color={'primary'}>Email</IonText>
                             </div>
@@ -49,7 +50,7 @@ const Login: React.FC = () => {
                             labelPlacement='floating' 
                             type='password' 
                             mode='md' 
-                            className='ion-margin-top ion-margin-bottom' 
+                            className='ion-margin-top ion-margin-bottom loginInput' 
                             value={password} 
                             onIonChange={(e) => setPassword(e.detail.value!)}>
                             <div slot='label'>

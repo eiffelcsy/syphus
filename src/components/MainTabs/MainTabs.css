@@ -1,0 +1,25 @@
+ion-tab-bar {
+    height: 10vh;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    --background: #122A40;
+}
+
+ion-tab-button {
+    display: flex;
+    color: #122A40;
+    padding-bottom: 2.5vh;
+}
+
+ion-tab-button.tab-selected {
+    display: flex;
+    color: #122A40;
+}
+
+ion-icon {
+    --ionicon-stroke-width: 38px;
+}
+
+ion-tab-button.tab-selected ion-icon {
+    --ionicon-stroke-width: 50px;
+}

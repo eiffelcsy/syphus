@@ -38,7 +38,7 @@ import Login from './pages/Login/Login';
 import Reset from './pages/Reset/Reset';
 import { AuthProvider } from './authContext';
 import ProtectedRoute from './ProtectedRoute';
-import MainTabs from './components/MainTabs';
+import MainTabs from './components/MainTabs/MainTabs';
 
 setupIonicReact();
 
