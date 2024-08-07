@@ -1,4 +1,4 @@
-import { IonContent, IonDatetime, IonSegment, IonPage, IonSegmentButton, IonToolbar, IonLabel, IonInput, IonButton, IonSelect, IonSelectOption, IonText, IonDatetimeButton, IonModal, IonCheckbox, IonList, IonItemDivider, IonHeader, IonTitle } from '@ionic/react';
+import { IonContent, IonDatetime, IonSegment, IonPage, IonSegmentButton, IonToolbar, IonLabel, IonInput, IonButton, IonSelect, IonSelectOption, IonText, IonDatetimeButton, IonModal, IonCheckbox, IonList, IonItemDivider, IonHeader, IonTitle, IonGrid, IonRow, IonCol } from '@ionic/react';
 import React, { useState } from 'react';
 import { supabase } from '../../supabaseClient';
 import { format, toZonedTime } from 'date-fns-tz';
@@ -20,6 +20,11 @@ const Add: React.FC = () => {
     const [showTimeInputs, setShowTimeInputs] = useState<boolean>(false);
 
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    const tagSelect = {
+        color: 'tertiary',
+        cssClass: 'tagSelectInterface'
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -132,18 +137,24 @@ const Add: React.FC = () => {
                         )}
 
                         {type === 'routine' && (
-                            <IonList>
-                                <IonItemDivider>Occurs On</IonItemDivider>
-                                {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, index) => (
-                                    <div key={index}>
-                                        <IonLabel>{day}</IonLabel>
-                                        <IonCheckbox checked={occursOn.includes(day)} onIonChange={e => {
-                                            const checked = e.detail.checked;
-                                            setOccursOn(prev => checked ? [...prev, day] : prev.filter(d => d !== day));
-                                        }} />
-                                    </div>
-                                ))}
-                            </IonList>
+                            <div className='occurDiv'>
+                                <div className='occurLabel'>
+                                    <IonText>Occurs On</IonText>
+                                </div>
+                                <IonGrid>
+                                    <IonRow>
+                                        {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, index) => (
+                                            <IonCol key={index} style={{ textAlign: 'center' }}>
+                                                <IonCheckbox color={'tertiary'} labelPlacement="stacked" checked={occursOn.includes(day)} onIonChange={e => {
+                                                    const checked = e.detail.checked;
+                                                    const fullDay = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][index];
+                                                    setOccursOn(prev => checked ? [...prev, fullDay] : prev.filter(d => d !== fullDay));
+                                                }}>{day}</IonCheckbox>
+                                            </IonCol>
+                                        ))}
+                                    </IonRow>
+                                </IonGrid>
+                            </div>
                         )}
 
                         {(type === 'task' || type === 'routine') && !showTimeInputs && (
@@ -184,11 +195,13 @@ const Add: React.FC = () => {
                             </>
                         )}
 
-                        <IonLabel>Tags</IonLabel>
-                        <IonSelect multiple={true} value={tags} onIonChange={e => setTags(e.detail.value)}>
+                        <IonSelect color={'tertiary'} interface='alert' interfaceOptions={tagSelect} multiple={true} value={tags} onIonChange={e => setTags(e.detail.value)}>
                             {/* TODO: Replace with dynamic tags from the database */}
-                            <IonSelectOption value="tag1">Tag 1</IonSelectOption>
-                            <IonSelectOption value="tag2">Tag 2</IonSelectOption>
+                            <div slot='label'>
+                                Tags
+                            </div>
+                            <IonSelectOption className='tagSelectOption' value="tag1">Tag 1</IonSelectOption>
+                            <IonSelectOption className='tagSelectOption' value="tag2">Tag 2</IonSelectOption>
                         </IonSelect>
 
                         <IonButton fill='solid' color={'tertiary'} type="submit" expand="block" className='confirmAddButton'>Confirm Add</IonButton>
