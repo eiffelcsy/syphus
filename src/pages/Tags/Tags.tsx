@@ -5,9 +5,9 @@ const Tags: React.FC = () => {
 
     return (
         <IonPage>
-            <IonHeader>
-                <IonToolbar>
-                    <IonTitle>Page Title</IonTitle>
+            <IonHeader className='ion-no-border'>
+                <IonToolbar className='mainToolbar'>
+                    <IonTitle className='mainTitle'>Tags</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent className="ion-padding">

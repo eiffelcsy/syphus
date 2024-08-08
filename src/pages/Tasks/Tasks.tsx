@@ -5,9 +5,9 @@ const Tasks: React.FC = () => {
 
     return (
         <IonPage>
-            <IonHeader>
-                <IonToolbar>
-                    <IonTitle>Page Title</IonTitle>
+            <IonHeader className='ion-no-border'>
+                <IonToolbar className='mainToolbar'>
+                    <IonTitle className='mainTitle'>Tasks</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent className="ion-padding">

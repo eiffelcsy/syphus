@@ -1,0 +1,54 @@
+.calendar-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+}
+
+.schedule-table-wrapper {
+  overflow-y: inherit;
+}
+
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.schedule-table th,
+.schedule-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  height: 6vh;
+}
+
+.task-card {
+  padding: 8px;
+  color: #122A40;
+  background-color: #F2E5D5;
+  border-radius: 4px;
+  min-height: 100%;
+}
+
+.summary-cards {
+  margin: 0 1.5vh 1.5vh;
+}
+
+.task-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.events-summary,
+.tasks-summary {
+  color: #122A40;
+  padding: 10px;
+}
+
+.events-counter,
+.tasks-counter {
+  font-size: 1.5rem;
+  font-weight: 600;
+}

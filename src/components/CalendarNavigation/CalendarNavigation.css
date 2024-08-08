@@ -1,0 +1,37 @@
+.calendar-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: #122A40;
+    width: 95%;
+  }
+
+.date-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #F2E5D5;
+  border-radius: 10px;
+  min-width: 4.5vh;
+  min-height: 6vh;
+  font-size: 1rem;
+}
+
+.date-item .dayLabel {
+  margin-bottom: 0.25vh;
+}
+
+.date-item .dateLabel {
+  margin-top: 0.25vh;
+}
+
+.date-item.highlighted {
+  background-color: #F2E5D5;
+  color: #122A40;
+  font-weight: bold;
+}
+
+.calendar-navigation ion-button {
+  min-width: 0px;
+}

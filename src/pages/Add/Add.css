@@ -122,6 +122,7 @@ ion-checkbox {
     position: absolute;
     bottom: 4vh;
     width: 80%;
+    font-weight: 600;
 }
 
 .tagSelectInterface button .alert-checkbox-icon {
@@ -134,4 +135,15 @@ button[aria-checked=true].tagSelectOption .alert-checkbox-icon .alert-checkbox-i
 
 .tagSelectInterface .alert-wrapper .alert-button-group button.alert-button {
     color: #F2E5D5;
+}
+
+.tagSelectField {
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 14px;
+    min-height: 3.1em;
+    padding-left: 2vh;
+    padding-right: 2vh;
+    margin-left: 2px;
+    margin-right: 2px;
 }

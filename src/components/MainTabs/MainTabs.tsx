@@ -1,7 +1,7 @@
 import React from 'react';
-import { IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, IonRouterOutlet } from '@ionic/react';
+import { IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, IonRouterOutlet, IonFab, IonFabButton, IonFabList } from '@ionic/react';
 import { Redirect, Route } from 'react-router-dom';
-import { homeOutline, calendarOutline, addCircleOutline, listOutline, pricetagOutline, terminal } from 'ionicons/icons';
+import { homeOutline, calendarOutline, addCircleOutline, listOutline, pricetagOutline, terminal, add } from 'ionicons/icons';
 import Home from '../../pages/Home/Home';
 import Events from '../../pages/Events/Events';
 import Add from '../../pages/Add/Add';
@@ -30,7 +30,11 @@ const MainTabs: React.FC = () => {
           <IonIcon icon={calendarOutline} size="large" />
         </IonTabButton>
         <IonTabButton mode="ios" tab="add" href="/app/add">
-          <IonIcon icon={addCircleOutline} size="large" />
+          <IonFab>
+            <IonFabButton>
+              <IonIcon size='large' color='tertiary' icon={add} className='addButton'></IonIcon>
+            </IonFabButton>
+          </IonFab>
         </IonTabButton>
         <IonTabButton mode="ios" tab="tasks" href="/app/tasks">
           <IonIcon icon={listOutline} size="large" />

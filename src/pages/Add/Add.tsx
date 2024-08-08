@@ -31,13 +31,18 @@ const Add: React.FC = () => {
 
         const { data: { user } } = await supabase.auth.getUser()
 
-        function extractTime(isoString: string) {
+        function parseISOString(s: string): Date {
+            const [year, month, day, hour, minute, second, millisecond] = s.split(/\D+/).map(Number);
+            return new Date(year, month - 1, day, hour, minute, second, millisecond || 0);
+        }
+        
+        function extractTime(isoString: string | null, userTimeZone: string): string | null {
             if (!isoString) return null;
             
-            const date = new Date(isoString);
+            const date = parseISOString(isoString);
             const zonedTime = toZonedTime(date, userTimeZone);
-
-            return format(zonedTime, "yyyy-MM-dd'T'HH:mm:ssXXX", { timeZone: userTimeZone }).substring(11, 19);
+            
+            return format(zonedTime, "HH:mm:ssXXX", { timeZone: userTimeZone });
         }
 
         const item = {
@@ -46,8 +51,8 @@ const Add: React.FC = () => {
             name,
             start_date: type !== 'routine' && showDateInput ? startDate : null,
             end_date: type === 'routine' ? endDate : null,
-            start_time: type !== 'event' && showTimeInputs ? extractTime(startTime) : null,
-            end_time: type !== 'event' && showTimeInputs ? extractTime(endTime) : null,
+            start_time: type !== 'event' && showTimeInputs ? extractTime(startTime, userTimeZone) : null,
+            end_time: type !== 'event' && showTimeInputs ? extractTime(endTime, userTimeZone) : null,
             occurs_on: type === 'routine' ? occursOn.join(',') : null,
         };
 
@@ -195,16 +200,20 @@ const Add: React.FC = () => {
                             </>
                         )}
 
-                        <IonSelect color={'tertiary'} interface='alert' interfaceOptions={tagSelect} multiple={true} value={tags} onIonChange={e => setTags(e.detail.value)}>
-                            {/* TODO: Replace with dynamic tags from the database */}
-                            <div slot='label'>
-                                Tags
-                            </div>
-                            <IonSelectOption className='tagSelectOption' value="tag1">Tag 1</IonSelectOption>
-                            <IonSelectOption className='tagSelectOption' value="tag2">Tag 2</IonSelectOption>
-                        </IonSelect>
+                        <div className='tagSelectField'>
+                            <IonSelect color={'tertiary'} interface='alert' interfaceOptions={tagSelect} multiple={true} value={tags} onIonChange={e => setTags(e.detail.value)}>
+                                {/* TODO: Replace with dynamic tags from the database */}
+                                <div slot='label'>
+                                    Tags
+                                </div>
+                                <IonSelectOption className='tagSelectOption' value="tag1">Tag 1</IonSelectOption>
+                                <IonSelectOption className='tagSelectOption' value="tag2">Tag 2</IonSelectOption>
+                            </IonSelect>
+                        </div>
 
-                        <IonButton fill='solid' color={'tertiary'} type="submit" expand="block" className='confirmAddButton'>Confirm Add</IonButton>
+                        <IonButton fill='solid' color={'tertiary'} type="submit" expand="block" className='confirmAddButton'>
+                            <IonText color={'primary'}>Confirm Add</IonText>
+                        </IonButton>
                     </form>
                 </div>
             </IonContent>

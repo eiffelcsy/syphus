@@ -5,6 +5,11 @@ const Events: React.FC = () => {
 
     return (
         <IonPage>
+            <IonHeader className='ion-no-border'>
+                <IonToolbar className='mainToolbar'>
+                    <IonTitle className='mainTitle'>Events</IonTitle>
+                </IonToolbar>
+            </IonHeader>
             <IonContent className="ion-padding">
                 Events Tab Content
             </IonContent>
