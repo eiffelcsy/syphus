@@ -54,6 +54,7 @@ const Add: React.FC = () => {
             start_time: type !== 'event' && showTimeInputs ? extractTime(startTime, userTimeZone) : null,
             end_time: type !== 'event' && showTimeInputs ? extractTime(endTime, userTimeZone) : null,
             occurs_on: type === 'routine' ? occursOn.join(',') : null,
+            completed: false,
         };
 
         console.log(item)

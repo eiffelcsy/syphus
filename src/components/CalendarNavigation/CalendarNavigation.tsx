@@ -16,6 +16,7 @@ const CalendarNavigation: React.FC<CalendarNavigationProps> = ({ currentDate, se
     const newDate = new Date(currentDate);
     newDate.setDate(currentDate.getDate() + days);
     setCurrentDate(newDate);
+    console.log(currentDate);
   };
 
   const getDatesAround = (date: Date) => {

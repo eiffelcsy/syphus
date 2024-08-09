@@ -10,9 +10,7 @@ const Events: React.FC = () => {
                     <IonTitle className='mainTitle'>Events</IonTitle>
                 </IonToolbar>
             </IonHeader>
-            <IonContent className="ion-padding">
-                Events Tab Content
-            </IonContent>
+            
         </IonPage>
     );
 };

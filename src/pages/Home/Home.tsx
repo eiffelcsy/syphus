@@ -1,27 +1,27 @@
+import React, { useState, useEffect } from 'react';
 import {
   IonContent,
-  IonCard,
   IonHeader,
   IonPage,
   IonTitle,
   IonToolbar,
   IonToast,
-  IonCardContent,
-  IonGrid,
-  IonRow,
-  IonCol,
-  IonText
 } from '@ionic/react';
-import React, { useState, useEffect } from 'react';
 import CalendarNavigation from '../../components/CalendarNavigation/CalendarNavigation';
 import { supabase } from '../../supabaseClient';
+import SummaryCards from '../../components/SummaryCards';
+import ScheduleTable from '../../components/ScheduleTable';
+import EditTaskModal from '../../components/EditTaskModal';
 
-import './Home.css';
+import './Home.css'
 
 const Home: React.FC = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [tasks, setTasks] = useState<any[]>([]);
+  const [events, setEvents] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [showModal, setShowModal] = useState(false);
+  const [currentTask, setCurrentTask] = useState<any>(null);
 
   useEffect(() => {
     const fetchTasks = async (date: Date) => {
@@ -38,24 +38,64 @@ const Home: React.FC = () => {
       }
     };
 
+    const fetchEvents = async (date: Date) => {
+      const { data, error } = await supabase
+        .from('items')
+        .select('*')
+        .eq('type', 'event')
+        .eq('start_date', date.toISOString().split('T')[0]);
+
+      if (error) {
+        setError(error.message);
+      } else {
+        setEvents(data);
+      }
+    };
+
+    fetchEvents(currentDate);
     fetchTasks(currentDate);
   }, [currentDate]);
 
-  const calculateRowSpan = (task: any) => {
-    const [startHour, startMinute] = task.start_time.split(':').map(Number);
-    const [endHour, endMinute] = task.end_time.split(':').map(Number);
-    const startTimeInMinutes = startHour * 60 + startMinute;
-    const endTimeInMinutes = endHour * 60 + endMinute;
-    const durationInMinutes = endTimeInMinutes - startTimeInMinutes;
-    return durationInMinutes / 30;
+  const handleCheckboxChange = async (task: any) => {
+    const updatedCompletedStatus = !task.completed;
+
+    const { error } = await supabase
+      .from('items')
+      .update({ completed: updatedCompletedStatus })
+      .eq('item_id', task.item_id);
+
+    if (error) {
+      setError(error.message);
+    } else {
+      setTasks((prevTasks) =>
+        prevTasks.map((t) =>
+          t.id === task.id ? { ...t, completed: updatedCompletedStatus } : t
+        )
+      );
+    }
   };
 
-  const getTimeIndex = (hour: number, minute: number) => {
-    return hour * 2 + (minute === 30 ? 1 : 0);
+  const handleEditButtonClick = (task: any) => {
+    setCurrentTask(task);
+    setShowModal(true);
   };
 
-  const isCovered = (index: number, coveredIndexes: Set<number>) => {
-    return coveredIndexes.has(index);
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const { error } = await supabase
+      .from('items')
+      .update(currentTask)
+      .eq('item_id', currentTask.item_id);
+
+    if (error) {
+      setError(error.message);
+    } else {
+      setShowModal(false);
+      setTasks((prevTasks) =>
+        prevTasks.map((t) => (t.id === currentTask.id ? currentTask : t))
+      );
+    }
   };
 
   return (
@@ -68,26 +108,7 @@ const Home: React.FC = () => {
       <div className="calendar-wrapper">
         <CalendarNavigation currentDate={currentDate} setCurrentDate={setCurrentDate} />
       </div>
-      <div className='summary-cards-wrapper'>
-        <IonGrid>
-          <IonRow>
-            <IonCol>
-              <IonCard color={'tertiary'} className='summary-cards'>
-                <IonCardContent className='events-summary'>Events: 
-                  <IonText className='events-counter'> {tasks.length}</IonText>
-                </IonCardContent>
-              </IonCard>
-            </IonCol>
-            <IonCol>
-              <IonCard color={'tertiary'} className='summary-cards'>
-                <IonCardContent className='tasks-summary'>Tasks: 
-                  <IonText className='tasks-counter'> {tasks.length}</IonText>
-                </IonCardContent>
-              </IonCard>
-            </IonCol>
-          </IonRow>
-        </IonGrid>
-      </div>
+      <SummaryCards eventsCount={events.length} tasksCount={tasks.length} />
       <IonContent>
         {error && (
           <IonToast
@@ -97,53 +118,14 @@ const Home: React.FC = () => {
             onDidDismiss={() => setError(null)}
           />
         )}
-        <div className="schedule-table-wrapper">
-          <table className="schedule-table">
-            <tbody>
-              {(() => {
-                const coveredIndexes = new Set<number>();
-
-                return Array.from({ length: 24 * 2 }).map((_, index) => {
-                  const hour = Math.floor(index / 2);
-                  const minutes = index % 2 === 0 ? '00' : '30';
-                  const time = `${hour.toString().padStart(2, '0')}:${minutes}`;
-                  const task = tasks.find((task) => {
-                    if (!task.start_time || !task.end_time) return false;
-
-                    const [taskHour, taskMinute] = task.start_time.split(':').map(Number);
-                    return taskHour === hour && taskMinute === (minutes === '00' ? 0 : 30);
-                  });
-
-                  if (task) {
-                    const rowSpan = calculateRowSpan(task);
-                    const startIndex = getTimeIndex(hour, minutes === '00' ? 0 : 30);
-                    for (let i = 0; i < rowSpan; i++) {
-                      coveredIndexes.add(startIndex + i);
-                    }
-                    return (
-                      <tr key={index}>
-                        <td>{time}</td>
-                        <td rowSpan={rowSpan}>
-                          <div className="task-card">
-                            <div className='task-name'>{task.name}</div>
-                            <div className='task-duration'>{task.start_time} - {task.end_time}</div>
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  }
-
-                  return (
-                    <tr key={index}>
-                      <td>{time}</td>
-                      {isCovered(index, coveredIndexes) ? null : <td></td>}
-                    </tr>
-                  );
-                });
-              })()}
-            </tbody>
-          </table>
-        </div>
+        <ScheduleTable tasks={tasks} onEdit={handleEditButtonClick} onCheckboxChange={handleCheckboxChange} />
+        <EditTaskModal
+          showModal={showModal}
+          task={currentTask}
+          onClose={() => setShowModal(false)}
+          onSubmit={handleFormSubmit}
+          setTask={setCurrentTask}
+        />
       </IonContent>
     </IonPage>
   );

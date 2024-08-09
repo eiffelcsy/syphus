@@ -9,11 +9,14 @@
 
 .schedule-table-wrapper {
   overflow-y: inherit;
+  padding-left: 2.5vh;
+  padding-right: 2.5vh;
 }
 
 .schedule-table {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 2vh;
 }
 
 .schedule-table th,
@@ -22,18 +25,67 @@
   padding: 8px;
   text-align: left;
   height: 6vh;
+  border-left: none;
+  border-right: none;
+}
+
+.schedule-table td:first-child::after {
+  content: "";
+  display: block;
+  height: 130%;
+}
+
+.schedule-table td:first-child {
+  border: none;
+  width: 20%;
+}
+
+td.time-label {
+  font-size: 1.1rem;
+  text-align: right;
+  padding-right: 1.5vh;
+}
+
+td.task-slot {
+  text-align: center;
+}
+
+.schedule-table tbody tr:first-child {
+  border-top: none;
 }
 
 .task-card {
+  display: inline-block;
+  text-align: left;
   padding: 8px;
   color: #122A40;
   background-color: #F2E5D5;
-  border-radius: 4px;
+  border-radius: 10px;
   min-height: 100%;
+  width: 80%;
+}
+
+.task-card .task-content-wrapper {
+  display: flex;
+}
+
+.task-checkbox-wrapper {
+  margin: 8px 16px 8px 8px;
+}
+
+.task-card ion-checkbox {
+  --size: 30px;
+  --checkbox-background: #F2E5D5;
+  --checkmark-color: #F2E5D5;
+}
+
+.task-card ion-checkbox::part(container) {
+  border: 2px solid #122A40;
 }
 
 .summary-cards {
   margin: 0 1.5vh 1.5vh;
+  border-radius: 10px;
 }
 
 .task-name {
