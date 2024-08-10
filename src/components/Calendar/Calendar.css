@@ -1,0 +1,17 @@
+.month-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.day-label-row {
+    opacity: 70%;
+}
+
+.date-label-rows {
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+}
+
+.calendar-grid-wrapper {
+    width: 100%;
+}

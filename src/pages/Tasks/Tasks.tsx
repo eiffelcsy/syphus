@@ -10,9 +10,7 @@ const Tasks: React.FC = () => {
                     <IonTitle className='mainTitle'>Tasks</IonTitle>
                 </IonToolbar>
             </IonHeader>
-            <IonContent className="ion-padding">
-                Tasks Content
-            </IonContent>
+            
         </IonPage>
     );
 };

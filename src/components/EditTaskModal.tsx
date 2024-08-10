@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   IonModal,
   IonHeader,
@@ -7,9 +7,18 @@ import {
   IonButton,
   IonContent,
   IonInput,
-  IonItem,
   IonLabel,
   IonCheckbox,
+  IonSegment,
+  IonSegmentButton,
+  IonDatetime,
+  IonDatetimeButton,
+  IonSelect,
+  IonSelectOption,
+  IonText,
+  IonGrid,
+  IonRow,
+  IonCol,
 } from '@ionic/react';
 
 interface EditTaskModalProps {
@@ -27,92 +36,162 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
   onSubmit,
   setTask,
 }) => {
+  const [type, setType] = useState<string>(task?.type || 'task');
+  const [showDateInput, setShowDateInput] = useState<boolean>(!!task?.start_date);
+  const [showTimeInputs, setShowTimeInputs] = useState<boolean>(!!task?.start_time);
+
   return (
-    <IonModal isOpen={showModal} onDidDismiss={onClose}>
+    <IonModal isOpen={showModal} onDidDismiss={onClose} className='edit-task-modal'>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Edit Task</IonTitle>
-          <IonButton slot="end" onClick={onClose}>Close</IonButton>
+          <IonButton slot="end" onClick={onClose} color={'primary'}>
+            <IonText color={'tertiary'}>Close</IonText>
+          </IonButton>
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <form onSubmit={onSubmit}>
-          <IonItem>
-            <IonLabel position="stacked">User ID</IonLabel>
-            <IonInput
-              value={task?.user_id}
-              onIonChange={(e) => setTask({ ...task, user_id: e.detail.value! })}
-              required
-            />
-          </IonItem>
-          <IonItem>
-            <IonLabel position="stacked">Type</IonLabel>
-            <IonInput
-              value={task?.type}
-              onIonChange={(e) => setTask({ ...task, type: e.detail.value! })}
-              required
-            />
-          </IonItem>
-          <IonItem>
-            <IonLabel position="stacked">Name</IonLabel>
-            <IonInput
-              value={task?.name}
-              onIonChange={(e) => setTask({ ...task, name: e.detail.value! })}
-              required
-            />
-          </IonItem>
-          <IonItem>
-            <IonLabel position="stacked">Start Date</IonLabel>
-            <IonInput
-              type="date"
-              value={task?.start_date}
-              onIonChange={(e) => setTask({ ...task, start_date: e.detail.value! })}
-              required
-            />
-          </IonItem>
-          <IonItem>
-            <IonLabel position="stacked">End Date</IonLabel>
-            <IonInput
-              type="date"
-              value={task?.end_date}
-              onIonChange={(e) => setTask({ ...task, end_date: e.detail.value! })}
-            />
-          </IonItem>
-          <IonItem>
-            <IonLabel position="stacked">Start Time</IonLabel>
-            <IonInput
-              type="time"
-              value={task?.start_time}
-              onIonChange={(e) => setTask({ ...task, start_time: e.detail.value! })}
-              required
-            />
-          </IonItem>
-          <IonItem>
-            <IonLabel position="stacked">End Time</IonLabel>
-            <IonInput
-              type="time"
-              value={task?.end_time}
-              onIonChange={(e) => setTask({ ...task, end_time: e.detail.value! })}
-            />
-          </IonItem>
-          <IonItem>
-            <IonLabel position="stacked">Occurs On</IonLabel>
-            <IonInput
-              value={task?.occurs_on}
-              onIonChange={(e) => setTask({ ...task, occurs_on: e.detail.value! })}
-            />
-          </IonItem>
-          <IonItem>
-            <IonLabel position="stacked">Completed</IonLabel>
-            <IonCheckbox
-              checked={task?.completed}
-              onIonChange={(e) => setTask({ ...task, completed: e.detail.checked })}
-            />
-          </IonItem>
-          <IonButton expand="block" type="submit" style={{ marginTop: '20px' }}>
-            Save
-          </IonButton>
+        <div className='edit-form-wrapper'>
+        <form onSubmit={onSubmit} className='edit-modal-form'>
+          <div className='typeSegmentDiv'>
+            <IonSegment mode='ios' value={type} onIonChange={e => {
+              setType(e.detail.value! as string);
+              setTask({ ...task, type: e.detail.value! as string });
+            }} className='typeSegment'>
+              <IonSegmentButton className='typeSegmentButton' value="task">Task</IonSegmentButton>
+              <IonSegmentButton className='typeSegmentButton' value="routine">Routine</IonSegmentButton>
+            </IonSegment>
+          </div>
+
+          <IonInput
+            value={task?.name}
+            onIonChange={e => setTask({ ...task, name: e.detail.value! })}
+            fill='outline'
+            labelPlacement='floating'
+            mode='md'
+            required
+            className='nameInput'
+            color={'tertiary'}>
+            <div slot='label'>
+              <IonText color={'tertiary'}>Name</IonText>
+            </div>
+          </IonInput>
+
+          {(type === 'task' || type === 'event') && !showDateInput && (
+            <IonButton fill="outline" color={'tertiary'} onClick={() => setShowDateInput(true)} expand="block" className='addDateButton'>Set Date</IonButton>
+          )}
+
+          {(type === 'task' || type === 'event') && showDateInput && (
+            <>
+              <div className='dateSelectorDiv'>
+                <IonLabel className='startDateLabel'>Date</IonLabel>
+                <IonDatetimeButton datetime="start-date">
+                  <IonText>{task?.start_date ? 'Change Date' : 'Select Date'}</IonText>
+                </IonDatetimeButton>
+                <IonModal keepContentsMounted={true}>
+                  <IonDatetime
+                    id="start-date"
+                    presentation="date"
+                    preferWheel={true}
+                    value={task?.start_date}
+                    onIonChange={e => setTask({ ...task, start_date: e.detail.value! })}
+                  />
+                </IonModal>
+              </div>
+              <IonButton fill="outline" color={'tertiary'} onClick={() => setShowDateInput(false)} expand="block" className='addDateButton'>Remove Date</IonButton>
+            </>
+          )}
+
+          {type === 'routine' && (
+            <div className='occurDiv'>
+              <div className='occurLabel'>
+                <IonText>Occurs On</IonText>
+              </div>
+              <IonGrid>
+                <IonRow>
+                  {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, index) => (
+                    <IonCol key={index} style={{ textAlign: 'center' }}>
+                      <IonCheckbox
+                        color={'tertiary'}
+                        labelPlacement="stacked"
+                        checked={task?.occurs_on?.includes(day)}
+                        onIonChange={e => {
+                          const checked = e.detail.checked;
+                          const updatedDays = checked
+                            ? [...(task.occurs_on || []), day]
+                            : task.occurs_on.filter((d: string) => d !== day);
+                          setTask({ ...task, occurs_on: updatedDays });
+                        }}
+                      >
+                        {day}
+                      </IonCheckbox>
+                    </IonCol>
+                  ))}
+                </IonRow>
+              </IonGrid>
+            </div>
+          )}
+
+          {(type === 'task' || type === 'routine') && !showTimeInputs && (
+            <IonButton fill="outline" color={'tertiary'} onClick={() => setShowTimeInputs(true)} expand="block" className='addTimeButton'>Set Time</IonButton>
+          )}
+
+          {showTimeInputs && (
+            <>
+              <div className='timeSelectorDiv'>
+                <div className='startTimeDiv'>
+                  <IonLabel className='startTimeLabel'>Start Time</IonLabel>
+                  <IonDatetimeButton datetime="start-time" />
+                  <IonModal keepContentsMounted={true}>
+                    <IonDatetime
+                      id="start-time"
+                      presentation='time'
+                      minuteValues="0,30"
+                      value={task?.start_time}
+                      onIonChange={e => setTask({ ...task, start_time: e.detail.value! })}
+                    />
+                  </IonModal>
+                </div>
+                <div className='endTimeDiv'>
+                  <IonLabel className='endTimeLabel'>End Time</IonLabel>
+                  <IonDatetimeButton datetime="end-time" />
+                  <IonModal keepContentsMounted={true}>
+                    <IonDatetime
+                      id="end-time"
+                      presentation='time'
+                      minuteValues="0,30"
+                      value={task?.end_time}
+                      onIonChange={e => setTask({ ...task, end_time: e.detail.value! })}
+                    />
+                  </IonModal>
+                </div>
+              </div>
+              <IonButton fill="outline" color={'tertiary'} onClick={() => setShowTimeInputs(false)} expand="block" className='addTimeButton'>Remove Time</IonButton>
+            </>
+          )}
+
+          <div className='tagSelectField'>
+            <IonSelect
+              color={'tertiary'}
+              interface='alert'
+              multiple={true}
+              value={task?.tags || []}
+              onIonChange={e => setTask({ ...task, tags: e.detail.value })}
+            >
+              <div slot='label'>Tags</div>
+              {/* TODO: Replace with dynamic tags from the database */}
+              <IonSelectOption className='tagSelectOption' value="tag1">Tag 1</IonSelectOption>
+              <IonSelectOption className='tagSelectOption' value="tag2">Tag 2</IonSelectOption>
+            </IonSelect>
+          </div>
+          
+          <div className='save-button-wrapper'>
+            <IonButton fill='solid' color={'tertiary'} type="submit" expand="block" className='confirmAddButton'>
+              <IonText color={'primary'}>Save Changes</IonText>
+            </IonButton>
+          </div>
         </form>
+        </div>
       </IonContent>
     </IonModal>
   );

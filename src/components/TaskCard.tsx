@@ -1,5 +1,6 @@
 import React from 'react';
-import { IonButton, IonCheckbox } from '@ionic/react';
+import { IonButton, IonCheckbox, IonIcon } from '@ionic/react';
+import { buildOutline } from 'ionicons/icons';
 
 interface TaskCardProps {
   task: any;
@@ -22,7 +23,9 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onEdit, onCheckboxChange }) =
           <div className='task-duration'>{task.start_time} - {task.end_time}</div>
         </div>
       </div>
-      <IonButton onClick={onEdit}>Edit</IonButton>
+      <IonButton className='task-edit-button' onClick={onEdit}>
+        <IonIcon icon={buildOutline} slot='icon-only' color='primary' className='task-edit-icon'></IonIcon>
+      </IonButton>
     </div>
   );
 };

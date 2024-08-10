@@ -63,6 +63,7 @@ td.task-slot {
   border-radius: 10px;
   min-height: 100%;
   width: 80%;
+  position: relative;
 }
 
 .task-card .task-content-wrapper {
@@ -103,4 +104,33 @@ td.task-slot {
 .tasks-counter {
   font-size: 1.5rem;
   font-weight: 600;
+}
+
+.task-edit-button {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  --background: #F2E5D5;
+}
+
+.task-edit-icon {
+  font-size: 24px;
+}
+
+.edit-task-modal {
+  --border-radius: none;
+}
+
+.edit-form-wrapper {
+  padding: 2vh;
+}
+
+.edit-modal-form {
+  margin-top: 8vh;
+}
+
+.save-button-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

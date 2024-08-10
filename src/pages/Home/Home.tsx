@@ -23,6 +23,8 @@ const Home: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [currentTask, setCurrentTask] = useState<any>(null);
 
+  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
   useEffect(() => {
     const fetchTasks = async (date: Date) => {
       const { data, error } = await supabase
@@ -69,7 +71,7 @@ const Home: React.FC = () => {
     } else {
       setTasks((prevTasks) =>
         prevTasks.map((t) =>
-          t.id === task.id ? { ...t, completed: updatedCompletedStatus } : t
+          t.item_id === task.item_id ? { ...t, completed: updatedCompletedStatus } : t
         )
       );
     }
@@ -85,7 +87,13 @@ const Home: React.FC = () => {
 
     const { error } = await supabase
       .from('items')
-      .update(currentTask)
+      .update({ name: currentTask.name,
+                start_date: currentTask.start_date,
+                end_date: currentTask.end_date,
+                start_time: currentTask.start_time,
+                end_time: currentTask.end_time,
+                occurs_on: currentTask.occurs_on
+              })
       .eq('item_id', currentTask.item_id);
 
     if (error) {
@@ -93,7 +101,7 @@ const Home: React.FC = () => {
     } else {
       setShowModal(false);
       setTasks((prevTasks) =>
-        prevTasks.map((t) => (t.id === currentTask.id ? currentTask : t))
+        prevTasks.map((t) => (t.item_id === currentTask.item_id ? currentTask : t))
       );
     }
   };
@@ -102,7 +110,7 @@ const Home: React.FC = () => {
     <IonPage>
       <IonHeader className="ion-no-border">
         <IonToolbar className="mainToolbar">
-          <IonTitle className="mainTitle">Today</IonTitle>
+          <IonTitle className="mainTitle">{monthNames[currentDate.getMonth()]}</IonTitle>
         </IonToolbar>
       </IonHeader>
       <div className="calendar-wrapper">
