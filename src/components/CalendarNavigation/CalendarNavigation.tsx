@@ -5,6 +5,7 @@ import { caretBack, caretForward } from 'ionicons/icons';
 import './CalendarNavigation.css';
 
 const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const today = new Date().getDate();
 
 interface CalendarNavigationProps {
   currentDate: Date;
@@ -34,7 +35,7 @@ const CalendarNavigation: React.FC<CalendarNavigationProps> = ({ currentDate, se
         <IonIcon slot="icon-only" icon={caretBack} />
       </IonButton>
       {datesOfWeek.map((date, index) => (
-        <div key={index} className={`date-item ${currentDate.getDate() === date.getDate() ? 'highlighted' : ''}`}>
+        <div key={index} className={`date-item ${currentDate.getDate() === date.getDate() ? 'highlighted' : ''} ${date.getDate() === today ? 'today' : ''}`}>
           <div className='dayLabel'>{daysOfWeek[date.getDay()]}</div>
           <div className='dateLabel'>{date.getDate()}</div>
         </div>

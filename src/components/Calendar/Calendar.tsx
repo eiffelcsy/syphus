@@ -49,7 +49,7 @@ const Calendar: React.FC<CalendarProps> = ({ currentDate, setCurrentDate }) => {
   };
 
   const renderDay = (day: number, index: number) => {
-    const isToday = day === selectedDay;
+    const isToday = day === new Date().getDate();
     const isSelected = day === selectedDay;
 
     return (

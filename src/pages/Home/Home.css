@@ -1,4 +1,4 @@
-.calendar-wrapper {
+.calendar-week-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -133,4 +133,30 @@ td.task-slot {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.save-button {
+  padding-left: 2vh;
+  padding-right: 2vh;
+  width: 100%;
+  position: absolute;
+  bottom: 4vh;
+  font-weight: 600;
+}
+
+.delete-button-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-button {
+  position: absolute;
+  bottom: 11vh;
+  padding-left: 2vh;
+  padding-right: 2vh;
+  width: 100%;
+  font-weight: 600;
+  --background: #8f2b2b;
+  --color: #F2E5D5;
 }

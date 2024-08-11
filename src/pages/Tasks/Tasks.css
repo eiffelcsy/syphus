@@ -1,0 +1,48 @@
+.task-details {
+    text-align: right;
+    font-size: 0.8rem;
+}
+
+.task-date,
+.task-time {
+    margin: 0.5vh;
+    color: #F2E5D5;
+}
+
+.task-segment-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+}
+
+.task-segment {
+    height: 5vh;
+    width: 64%;
+}
+
+.task-segment-button {
+    font-size: 1rem;
+}
+
+ion-item.task-item {
+    --min-height: 50px;
+    --padding-top: 0.5vh;
+    --padding-bottom: 0.5vh;
+}
+
+
+.task-checkbox ion-checkbox {
+  --checkbox-background: #122A40;
+  --checkbox-background-checked: #F2E5D5;
+  --checkmark-color: #122A40;
+  --checkmark-width: 3px;
+}
+
+.task-checkbox ion-checkbox::part(container) {
+  border: 2px solid #F2E5D5;
+}
+
+.task-name-label {
+    margin-left: 1vh;
+}

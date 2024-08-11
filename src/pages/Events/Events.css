@@ -1,6 +1,9 @@
 .calendar-wrapper {
     display: flex;
     flex-direction: column;
-    padding-left: 4vh;
-    padding-right: 4vh;
+    justify-content: center;
+    align-items: center;
+    padding-left: 3.5vh;
+    padding-right: 3.5vh;
+    margin-top: 2vh;
 }

@@ -113,7 +113,7 @@ const Home: React.FC = () => {
           <IonTitle className="mainTitle">{monthNames[currentDate.getMonth()]}</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <div className="calendar-wrapper">
+      <div className="calendar-week-wrapper">
         <CalendarNavigation currentDate={currentDate} setCurrentDate={setCurrentDate} />
       </div>
       <SummaryCards eventsCount={events.length} tasksCount={tasks.length} />

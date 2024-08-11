@@ -26,6 +26,10 @@
   margin-top: 0.25vh;
 }
 
+.date-item.today {
+  border: 2px solid #F2E5D5;
+}
+
 .date-item.highlighted {
   background-color: #F2E5D5;
   color: #122A40;
