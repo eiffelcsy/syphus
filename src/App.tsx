@@ -2,6 +2,7 @@ import React from 'react';
 import { IonApp, IonNav, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { Route, Redirect } from 'react-router-dom';
+import { StatusBar, Style } from '@capacitor/status-bar';
 
 
 /* Core CSS required for Ionic components to work properly */

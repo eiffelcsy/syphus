@@ -126,7 +126,11 @@ const Home: React.FC = () => {
             onDidDismiss={() => setError(null)}
           />
         )}
-        <ScheduleTable tasks={tasks} onEdit={handleEditButtonClick} onCheckboxChange={handleCheckboxChange} />
+        <ScheduleTable 
+          tasks={tasks} 
+          onEdit={handleEditButtonClick} 
+          onCheckboxChange={handleCheckboxChange} 
+        />
         <EditTaskModal
           showModal={showModal}
           task={currentTask}
