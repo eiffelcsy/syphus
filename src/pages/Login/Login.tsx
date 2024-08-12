@@ -29,7 +29,7 @@ const Login: React.FC = () => {
 
     return (
         <IonPage>
-            <IonContent className='loginContent'>
+            <IonContent scrollY={false} className='loginContent'>
                 <h1 className='loginTitle'>Login</h1>
                 <div className='loginFormDiv'>
                     <form onSubmit={login}>

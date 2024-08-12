@@ -1,5 +1,5 @@
-body {
-	background-color: #122A40;
+html {
+    background-color: #122A40;
 }
 
 ion-content.loginContent {
@@ -39,7 +39,7 @@ form {
 
 .loginButton {
     width: 10vh;
-    margin-top: 12vh;
+    margin-top: 10vh;
     font-size: 1.5rem;
     float: right;
 }
@@ -64,7 +64,7 @@ a {
 
 .registerLink {
     display: flex;
-    margin-top: 24vh;
+    margin-top: 22vh;
     padding-left: 10%;
     padding-right: 10%;
     align-items: center;
