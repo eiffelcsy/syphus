@@ -1,5 +1,9 @@
-.loginContent {
-    --background: none;  
+body {
+	background-color: #122A40;
+}
+
+ion-content.loginContent {
+    --background: none;
     background-color: #F2E5D5; 
     background-image: url('/login_background.svg');
     background-repeat: no-repeat;

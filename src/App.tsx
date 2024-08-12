@@ -43,6 +43,8 @@ import MainTabs from './components/MainTabs/MainTabs';
 
 setupIonicReact();
 
+StatusBar.setStyle({ style: Style.Dark });
+
 const App: React.FC = () => (
   <IonApp>
     <AuthProvider>
