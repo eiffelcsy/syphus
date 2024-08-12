@@ -121,3 +121,7 @@ http://ionicframework.com/docs/theming/ */
 
 	--ion-item-background: #122A40;
 }
+
+body {
+	background-color: #122A40;
+}
