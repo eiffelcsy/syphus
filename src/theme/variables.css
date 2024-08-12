@@ -123,5 +123,5 @@ http://ionicframework.com/docs/theming/ */
 }
 
 body {
-	background-color: #122A40;
+	background-color: #122A40 !important;
 }
