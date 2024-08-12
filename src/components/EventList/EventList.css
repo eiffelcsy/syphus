@@ -31,9 +31,12 @@
 }
 
 .event-card {
+    display: flex;
     width: 30vh;
     height: 5vh;
-    padding: 8px;
+    padding: 0 8px 0 8px;
     margin: 0.5vh 0 0.5vh 0;
     border-radius: 8px;
+    justify-content: space-between;
+    align-items: center;
 }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { IonContent, IonList, IonItem, IonLabel, IonText, IonCard, IonCardTitle } from '@ionic/react';
+import { IonContent, IonList, IonItem, IonLabel, IonText, IonCard, IonCardTitle, IonButton, IonIcon, IonCardContent } from '@ionic/react';
+import { trashOutline } from 'ionicons/icons';
 import { supabase } from '../../supabaseClient';
 
 import './EventList.css';
@@ -71,6 +72,29 @@ const EventList: React.FC<EventListProps> = ({ currentDate }) => {
     fetchEvents();
   }, [currentDate]);
 
+  const deleteEvent = async (eventId: number, eventDate: string) => {
+    const { error } = await supabase
+      .from('items')
+      .delete()
+      .eq('item_id', eventId);
+
+    if (error) {
+      console.error('Error deleting event:', error);
+    } else {
+      setGroupedEvents(prevGroupedEvents => {
+        const updatedGroupedEvents = { ...prevGroupedEvents };
+        updatedGroupedEvents[eventDate] = updatedGroupedEvents[eventDate].filter(event => event.item_id !== eventId);
+
+        // If no events left on this date, remove the date group
+        if (updatedGroupedEvents[eventDate].length === 0) {
+          delete updatedGroupedEvents[eventDate];
+        }
+
+        return updatedGroupedEvents;
+      });
+    }
+  };
+
   return (
     <IonContent>
       <div className='event-list-wrapper'>
@@ -89,9 +113,12 @@ const EventList: React.FC<EventListProps> = ({ currentDate }) => {
                 <div className='event-card-group'>
                   {events.map(event => (
                     <IonCard color={'tertiary'} key={event.item_id} className='event-card'>
-                      <IonCardTitle>
+                      <IonCardTitle className='event-name-label'>
                         <IonText color={'primary'} className='event-name-label'>{event.name}</IonText>
                       </IonCardTitle>
+                      <IonButton fill="clear" color="danger" onClick={() => deleteEvent(event.item_id, date)}>
+                        <IonIcon slot="icon-only" icon={trashOutline} />
+                      </IonButton>
                     </IonCard>
                   ))}
                 </div>
