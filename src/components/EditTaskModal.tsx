@@ -42,6 +42,7 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
   const [showDateInput, setShowDateInput] = useState<boolean>(!!task?.start_date);
   const [showTimeInputs, setShowTimeInputs] = useState<boolean>(!!task?.start_time);
   const [showToast, setShowToast] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   const deleteTask = async () => {
     const { error } = await supabase
@@ -51,8 +52,11 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
 
     if (error) {
       console.error('Error deleting task:', error.message);
+      setError(error.message);
       setShowToast(true);
     } else {
+      setError(null);
+      setShowToast(true);
       onClose();
     }
   };
@@ -223,9 +227,9 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
         <IonToast
           isOpen={showToast}
           onDidDismiss={() => setShowToast(false)}
-          message="Error deleting task. Please try again."
+          message={error ? "Error deleting task. Please try again." : "Task deleted successfully!"}
           duration={2000}
-          color="danger"
+          color={error ? "danger" : "success"}
         />
       </IonContent>
     </IonModal>

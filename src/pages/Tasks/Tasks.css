@@ -29,8 +29,17 @@ ion-item.task-item {
     --min-height: 50px;
     --padding-top: 0.5vh;
     --padding-bottom: 0.5vh;
+    width: 100%;
 }
 
+.task-item-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.task-checkbox {
+    margin-left: 3vh;
+}
 
 .task-checkbox ion-checkbox {
   --checkbox-background: #122A40;

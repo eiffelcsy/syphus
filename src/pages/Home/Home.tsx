@@ -6,6 +6,7 @@ import {
   IonTitle,
   IonToolbar,
   IonToast,
+  useIonViewWillEnter,
 } from '@ionic/react';
 import CalendarNavigation from '../../components/CalendarNavigation/CalendarNavigation';
 import { supabase } from '../../supabaseClient';
@@ -13,7 +14,7 @@ import SummaryCards from '../../components/SummaryCards';
 import ScheduleTable from '../../components/ScheduleTable';
 import EditTaskModal from '../../components/EditTaskModal';
 
-import './Home.css'
+import './Home.css';
 
 const Home: React.FC = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -23,40 +24,57 @@ const Home: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [currentTask, setCurrentTask] = useState<any>(null);
 
-  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const monthNames = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
 
-  useEffect(() => {
-    const fetchTasks = async (date: Date) => {
-      const { data, error } = await supabase
+  // Unified fetch function
+  const fetchData = async (date: Date) => {
+    try {
+      // Fetch Tasks and Routines
+      const { data: tasksData, error: tasksError } = await supabase
         .from('items')
         .select('*')
         .in('type', ['task', 'routine'])
         .eq('start_date', date.toISOString().split('T')[0]);
 
-      if (error) {
-        setError(error.message);
-      } else {
-        setTasks(data);
-      }
-    };
+      if (tasksError) throw tasksError;
+      setTasks(tasksData);
 
-    const fetchEvents = async (date: Date) => {
-      const { data, error } = await supabase
+      // Fetch Events
+      const { data: eventsData, error: eventsError } = await supabase
         .from('items')
         .select('*')
         .eq('type', 'event')
         .eq('start_date', date.toISOString().split('T')[0]);
 
-      if (error) {
-        setError(error.message);
-      } else {
-        setEvents(data);
-      }
-    };
+      if (eventsError) throw eventsError;
+      setEvents(eventsData);
+    } catch (error: any) {
+      setError(error.message);
+    }
+  };
 
-    fetchEvents(currentDate);
-    fetchTasks(currentDate);
+  // Fetch data when currentDate changes
+  useEffect(() => {
+    fetchData(currentDate);
   }, [currentDate]);
+
+  // Fetch data when the view is about to enter
+  useIonViewWillEnter(() => {
+    fetchData(currentDate);
+  });
 
   const handleCheckboxChange = async (task: any) => {
     const updatedCompletedStatus = !task.completed;
@@ -71,7 +89,9 @@ const Home: React.FC = () => {
     } else {
       setTasks((prevTasks) =>
         prevTasks.map((t) =>
-          t.item_id === task.item_id ? { ...t, completed: updatedCompletedStatus } : t
+          t.item_id === task.item_id
+            ? { ...t, completed: updatedCompletedStatus }
+            : t
         )
       );
     }
@@ -87,13 +107,14 @@ const Home: React.FC = () => {
 
     const { error } = await supabase
       .from('items')
-      .update({ name: currentTask.name,
-                start_date: currentTask.start_date,
-                end_date: currentTask.end_date,
-                start_time: currentTask.start_time,
-                end_time: currentTask.end_time,
-                occurs_on: currentTask.occurs_on
-              })
+      .update({
+        name: currentTask.name,
+        start_date: currentTask.start_date,
+        end_date: currentTask.end_date,
+        start_time: currentTask.start_time,
+        end_time: currentTask.end_time,
+        occurs_on: currentTask.occurs_on,
+      })
       .eq('item_id', currentTask.item_id);
 
     if (error) {
@@ -101,7 +122,9 @@ const Home: React.FC = () => {
     } else {
       setShowModal(false);
       setTasks((prevTasks) =>
-        prevTasks.map((t) => (t.item_id === currentTask.item_id ? currentTask : t))
+        prevTasks.map((t) =>
+          t.item_id === currentTask.item_id ? currentTask : t
+        )
       );
     }
   };
@@ -110,11 +133,16 @@ const Home: React.FC = () => {
     <IonPage>
       <IonHeader className="ion-no-border">
         <IonToolbar className="mainToolbar">
-          <IonTitle className="mainTitle">{monthNames[currentDate.getMonth()]}</IonTitle>
+          <IonTitle className="mainTitle">
+            {monthNames[currentDate.getMonth()]}
+          </IonTitle>
         </IonToolbar>
       </IonHeader>
       <div className="calendar-week-wrapper">
-        <CalendarNavigation currentDate={currentDate} setCurrentDate={setCurrentDate} />
+        <CalendarNavigation
+          currentDate={currentDate}
+          setCurrentDate={setCurrentDate}
+        />
       </div>
       <SummaryCards eventsCount={events.length} tasksCount={tasks.length} />
       <IonContent>
@@ -126,10 +154,10 @@ const Home: React.FC = () => {
             onDidDismiss={() => setError(null)}
           />
         )}
-        <ScheduleTable 
-          tasks={tasks} 
-          onEdit={handleEditButtonClick} 
-          onCheckboxChange={handleCheckboxChange} 
+        <ScheduleTable
+          tasks={tasks}
+          onEdit={handleEditButtonClick}
+          onCheckboxChange={handleCheckboxChange}
         />
         <EditTaskModal
           showModal={showModal}

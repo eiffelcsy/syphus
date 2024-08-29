@@ -104,7 +104,6 @@ const Tasks: React.FC = () => {
 
   const handleTaskSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Update task in the database
     const { error } = await supabase
       .from('items')
       .update(selectedTask)
@@ -142,14 +141,14 @@ const Tasks: React.FC = () => {
         ) : (
           <IonList lines='none'>
             {filteredTasks.map(task => (
-              <IonItemSliding key={task.item_id}>
+              <IonItemSliding className='task-item-wrapper' key={task.item_id}>
+                <div className='task-checkbox' slot='start'>
+                  <IonCheckbox 
+                    checked={task.completed}
+                    onIonChange={() => handleCheckboxChange(task)}
+                  ></IonCheckbox>
+                </div>
                 <IonItem lines='none' color='primary' className='task-item' button onClick={() => handleTaskClick(task)}>
-                  <div className='task-checkbox' slot='start'>
-                    <IonCheckbox 
-                      checked={task.completed}
-                      onIonChange={() => handleCheckboxChange(task)}
-                    ></IonCheckbox>
-                  </div>
                   <IonLabel className='task-name-label'>
                     <IonText color={'tertiary'}>
                       <h2>{task.name}</h2>

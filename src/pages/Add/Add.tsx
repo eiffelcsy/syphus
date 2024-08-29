@@ -57,8 +57,6 @@ const Add: React.FC = () => {
             completed: false,
         };
 
-        console.log(item)
-
         try {
             const { data, error } = await supabase
                 .from('items')
